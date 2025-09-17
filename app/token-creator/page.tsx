@@ -391,13 +391,6 @@ export default function TokenCreatorPage() {
                 here a whole blog post about how to create a Solana Token.
               </p>
             </div>
-            <div className="flex items-center justify-center">
-              <Image
-                src={HeroImg}
-                alt="hero-image"
-                className="h-auto max-w-full border rounded-lg shadow-lg border-teal-400/20"
-              />
-            </div>
           </div>
         </motion.div>
       </section>
