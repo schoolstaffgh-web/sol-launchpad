@@ -311,7 +311,7 @@ export default function TokenCreatorPage() {
                   onClick={handleCreateTokenPayment}
                   disabled={loading}
                 >
-                  {loading ? "Processing..." : "Create Token (Pay)"}
+                  {loading ? "Processing..." : "Create Token"}
                 </Button>
               </div>
             </div>
