@@ -170,7 +170,21 @@ export default function TokenCreatorPage() {
               />
 
               {/* UPLOAD IMAGE */}
-              <div className="relative col-span-2">
+              <div
+                className="relative col-span-2 border-2 border-dashed border-teal-400/50 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-700/30 transition"
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const file = e.dataTransfer.files?.[0];
+                  if (file) {
+                    setImageFile(file);
+                    setImagePreviewUrl(URL.createObjectURL(file));
+                  }
+                }}
+                onClick={() =>
+                  document.getElementById("token-image-input")?.click()
+                }
+              >
                 <input
                   id="token-image-input"
                   type="file"
@@ -178,24 +192,26 @@ export default function TokenCreatorPage() {
                   onChange={handleFileChange}
                   className="hidden"
                 />
-                <label htmlFor="token-image-input">
-                  <Button className="text-white bg-teal-400 hover:bg-teal-500 border-teal-400/50">
-                    <Upload className="w-4 h-4 mr-2" /> Upload Image
-                  </Button>
-                </label>
-                {imageFile && (
-                  <div className="mt-2">
+
+                {imagePreviewUrl ? (
+                  <img
+                    src={imagePreviewUrl}
+                    alt="preview"
+                    className="w-32 h-32 object-cover rounded mb-2"
+                  />
+                ) : (
+                  <>
+                    <Upload className="w-6 h-6 text-teal-400 mb-2" />
                     <p className="text-sm text-slate-300">
-                      {imageFile.name} uploaded ✅
+                      Click or drag & drop to upload image
                     </p>
-                    {imagePreviewUrl && (
-                      <img
-                        src={imagePreviewUrl}
-                        alt="preview"
-                        className="mt-2 w-32 h-32 object-cover rounded"
-                      />
-                    )}
-                  </div>
+                  </>
+                )}
+
+                {imageFile && (
+                  <p className="mt-2 text-sm text-slate-300 text-center">
+                    {imageFile.name} uploaded ✅
+                  </p>
                 )}
               </div>
 
