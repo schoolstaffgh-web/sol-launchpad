@@ -5,6 +5,7 @@ import React from "react";
 import GradualSpacing from "./ui/gradual-spacing";
 import { cn } from "@/lib/utils";
 import { AnimatedList } from "./ui/animated-list";
+import Link from "next/link";
 
 interface LaunchpadItem {
   name: string;
@@ -97,12 +98,15 @@ const SolanaLaunchpadCTA = () => {
         />
       </div>
       <div className="flex flex-col items-center justify-center py-4">
-        <span className="flex items-center px-4 py-3 transition-all duration-300 ease-in-out border border-teal-500 rounded-full group text-slate-50 hover:bg-teal-500/10">
+        <Link
+          href="/token-creator"
+          className="flex items-center px-4 py-3 transition-all duration-300 ease-in-out border border-teal-500 rounded-full group text-slate-50 hover:bg-teal-500/10"
+        >
           <Rocket className="w-4 h-4 mr-2 text-teal-500 transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-12" />
           <span className="transition-all duration-300 ease-in-out group-hover:scale-105">
-            Launch Your Project
+            Launch Your Token
           </span>
-        </span>
+        </Link>
       </div>
       <div className="max-w-3xl mx-auto mt-8">
         <AnimatedList className="bg-transparent border-none shadow-none">
