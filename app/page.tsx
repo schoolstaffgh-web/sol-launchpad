@@ -35,13 +35,15 @@ export default function Home() {
         />
       </section>
 
-      {/* Overview section */}
-      <section className="flex flex-col lg:flex-row justify-center bg-gradient-to-b from-slate-900 to-background items-start gap-4 px-[2em] lg:px-[4em] py-4 w-full">
+      {/* Intro Section */}
+      <section className="flex flex-col lg:flex-row justify-center bg-gradient-to-b from-slate-900 to-background items-start gap-8 px-[2em] lg:px-[4em] py-10 w-full">
         <div className="relative flex flex-col h-full gap-4 lg:w-1/2">
-          <h1 className="text-[2em] font-bold text-teal-500">Overview</h1>
+          <h1 className="text-[2em] font-bold text-teal-500">
+            What is Navitender?
+          </h1>
           <Image
             src={HeroImg}
-            alt={""}
+            alt="Navitender Illustration"
             style={{
               objectFit: "cover",
               width: "100%",
@@ -50,69 +52,45 @@ export default function Home() {
           />
         </div>
 
-        <div className="flex flex-col items-start gap-8 lg:w-1/2 lg:mt-[2em]">
-          <div>
-            <h2 className="text-[1.6em] pl-6 font-bold mb-4 text-teal-400 glitch-text">
-              Project Title
-            </h2>
-            <p className="pl-6 text-justify text-slate-200">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium, expedita alias repellat fuga aperiam officiis quidem
-              fugiat eveniet harum non quo, nostrum dolor, cum sequi cupiditate
-              odio tempora voluptate dignissimos.Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Laudantium.
-            </p>
-            <div className="pl-6">
-              <h4 className="text-[1.1em] font-extralight mb-4 mt-6 text-tealClr font-monsterr">
-                • Total Supply :
-              </h4>
-              <h3 className="text-[1.1em] font-extralight mb-4 text-tealClr font-monsterr">
-                • Minting Price :
-              </h3>
-              <h3 className="text-[1.1em] font-extralight text-tealClr mb-4 font-monsterr">
-                • Remaining supply :
-              </h3>
-            </div>
-          </div>
-
-          <div className="text-slate-200">
-            <h3 className="text-[1.6em] pl-6 font-bold mb-4 text-teal-400 glitch-text">
-              Utility
-            </h3>
-            <ul className="pl-6">
-              <div className="pl-6 space-y-4 list-disc">
-                <li>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Laudantium, expedita alias repellat fuga aperiam officiis
-                  quidem fugiat eveniet harum non quo,
-                </li>
-                <li>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Laudantium, expedita alias repellat fuga aperiam officiis
-                  quidem fugiat eveniet harum non quo,
-                </li>
-                <li>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Laudantium, expedita alias repellat fuga aperiam officiis
-                  quidem fugiat eveniet harum non quo,
-                </li>
-              </div>
-            </ul>
-          </div>
-
-          <div className="relative flex items-center justify-center w-full gap-4">
-            <Separator className="shrink" />
-            <Button variant={"outline"} className="text-teal-400 min-w-max">
-              Mint Now
-            </Button>
-            <Separator className="shrink" />
-          </div>
+        <div className="flex flex-col items-start gap-6 lg:w-1/2 lg:mt-[2em]">
+          <p className="pl-2 text-justify text-slate-200 text-lg leading-relaxed">
+            Navitender is a Solana-based launchpad that makes it simple to
+            create, launch, and grow your token. Whether you’re starting a
+            community project or building the next big idea, Navitender gives
+            you the tools to succeed.
+          </p>
         </div>
       </section>
+
       <Separator className="w-[90%] mx-auto my-10 lg:my-20" />
-      {/* Features section */}
-      <Features />
+
+      {/* Features Section */}
+      <section className="flex flex-col items-center text-slate-200 px-[2em] lg:px-[4em] py-10">
+        <h2 className="text-[1.8em] font-bold mb-6 text-teal-400 glitch-text">
+          Features
+        </h2>
+        <ul className="space-y-6 max-w-3xl w-full">
+          <li className="border-l-4 border-teal-500 pl-4">
+            <span className="font-bold text-teal-300">Simple Token Creation</span> → 
+            Launch tokens in minutes without coding.
+          </li>
+          <li className="border-l-4 border-teal-500 pl-4">
+            <span className="font-bold text-teal-300">Liquidity Management</span> → 
+            Connect directly with Raydium pools.
+          </li>
+          <li className="border-l-4 border-teal-500 pl-4">
+            <span className="font-bold text-teal-300">Growth Tools</span> → 
+            Community-focused features to boost adoption.
+          </li>
+          <li className="border-l-4 border-teal-500 pl-4">
+            <span className="font-bold text-teal-300">Security First</span> → 
+            Built with trust and transparency in mind.
+          </li>
+        </ul>
+      </section>
+
       <Separator className="w-[90%] mx-auto my-10 lg:my-20" />
+
       {/* Services section */}
       <Services />
       <Separator className="w-[90%] mx-auto my-10 lg:my-20" />
