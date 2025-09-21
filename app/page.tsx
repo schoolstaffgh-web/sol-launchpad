@@ -22,6 +22,19 @@ export default function Home() {
       {" "}
       <SolanaLaunchpadCTA />
       <Hero />
+
+      {/* Video Section */}
+      <section className="flex justify-center py-8 px-4">
+        <video
+          className="w-full max-w-4xl mx-auto rounded-lg shadow-lg border border-teal-500 object-contain"
+          src="/NT.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      </section>
+
       {/* Overview section */}
       <section className="flex flex-col lg:flex-row justify-center bg-gradient-to-b from-slate-900 to-background items-start gap-4 px-[2em] lg:px-[4em] py-4 w-full">
         <div className="relative flex flex-col h-full gap-4 lg:w-1/2">
