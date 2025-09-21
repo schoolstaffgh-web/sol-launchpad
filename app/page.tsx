@@ -20,19 +20,24 @@ export default function Home() {
       <SolanaLaunchpadCTA />
       <Hero />
 
-      {/* First Video Section (NT.mp4) */}
+      {/* First Video Section (NT.webm + NT.mp4 fallback) */}
       <section className="flex justify-center py-8 px-4">
         <video
           className="w-full max-w-4xl mx-auto rounded-lg shadow-lg border border-teal-500 object-contain"
-          src="/NT.mp4"
           autoPlay
           loop
           muted
           playsInline
-        />
+          preload="auto"
+          poster="/poster1.jpg" // optional thumbnail
+        >
+          <source src="/NT.webm" type="video/webm" />
+          <source src="/NT.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </section>
 
-      {/* Intro Section with NT1.mp4 */}
+      {/* Intro Section with NT1.webm + NT1.mp4 fallback */}
       <section className="flex flex-col lg:flex-row justify-center bg-gradient-to-b from-slate-900 to-background items-start gap-8 px-[2em] lg:px-[4em] py-10 w-full">
         <div className="relative flex flex-col h-full gap-4 lg:w-1/2">
           <h1 className="text-[2em] font-bold text-teal-500">
@@ -40,12 +45,17 @@ export default function Home() {
           </h1>
           <video
             className="w-full rounded-lg shadow-lg border border-teal-500 object-contain"
-            src="/NT1.mp4"
             autoPlay
             loop
             muted
             playsInline
-          />
+            preload="auto"
+            poster="/poster2.jpg" // optional thumbnail
+          >
+            <source src="/NT1.webm" type="video/webm" />
+            <source src="/NT1.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
 
         <div className="flex flex-col items-start gap-6 lg:w-1/2 lg:mt-[2em]">
@@ -102,3 +112,4 @@ export default function Home() {
     </motion.main>
   );
 }
+
