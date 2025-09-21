@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import { HeroImg } from "@images";
 import Hero from "@components/Hero";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@components/ui/button";
@@ -19,21 +17,8 @@ export default function Home() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {" "}
       <SolanaLaunchpadCTA />
       <Hero />
-
-      {/* Video Section */}
-      <section className="flex justify-center py-8 px-4">
-        <video
-          className="w-full max-w-4xl mx-auto rounded-lg shadow-lg border border-teal-500 object-contain"
-          src="/NT.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
-      </section>
 
       {/* Intro Section */}
       <section className="flex flex-col lg:flex-row justify-center bg-gradient-to-b from-slate-900 to-background items-start gap-8 px-[2em] lg:px-[4em] py-10 w-full">
@@ -41,14 +26,13 @@ export default function Home() {
           <h1 className="text-[2em] font-bold text-teal-500">
             What is Navitender?
           </h1>
-          <Image
-            src={HeroImg}
-            alt="Navitender Illustration"
-            style={{
-              objectFit: "cover",
-              width: "100%",
-              borderRadius: "10px",
-            }}
+          <video
+            className="w-full rounded-lg shadow-lg border border-teal-500 object-cover"
+            src="/NT1.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
           />
         </div>
 
@@ -103,3 +87,4 @@ export default function Home() {
     </motion.main>
   );
 }
+
