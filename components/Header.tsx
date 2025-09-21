@@ -3,7 +3,7 @@ import { Logo } from "@images";
 import Image from "next/image";
 import Link from "next/link";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { Home, FileText, Menu } from "lucide-react";
+import { Home, FileText, Droplets, Layers } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
@@ -31,53 +31,50 @@ const Header = (props: Props) => {
           >
             Token Creator
           </Link>
+          <Link
+            href="https://raydium.io/liquidity/create-pool/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="duration-500 cursor-pointer delay-600 animate-in fade-in zoom-in hover:text-tealClr"
+          >
+            Liquidity Pool
+          </Link>
+          <Link
+            href="https://raydium.io/swap/?inputMint=sol&outputMint=4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="duration-500 cursor-pointer delay-600 animate-in fade-in zoom-in hover:text-tealClr"
+          >
+            Manage Liquidity
+          </Link>
         </nav>
 
         <div className="flex items-center justify-center gap-4">
-          {/* Social icons */}
           <nav className="hidden gap-4 lg:flex">
-            {/* Twitter */}
-            <Link href="/" target="_blank" rel="noopener noreferrer">
-              <svg
-                width="23"
-                height="23"
-                viewBox="0 0 300 300"
-                xmlns="http://www.w3.org/2000/svg"
-                className="duration-500 cursor-pointer delay-600 animate-in fade-in zoom-in hover:text-tealClr"
-              >
-                <path
-                  d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66"
-                  fill="currentColor"
-                />
-              </svg>
-            </Link>
-
-            {/* Discord */}
-            <Link href="/" target="_blank" rel="noopener noreferrer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-                className="duration-500 cursor-pointer delay-600 animate-in fade-in zoom-in hover:text-tealClr"
-              >
-                <path
-                  d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Z"
-                  stroke="#000000"
-                  strokeWidth="0.4"
-                ></path>
-              </svg>
-            </Link>
+            {/* Socials can stay here if needed */}
           </nav>
 
           <WalletMultiButton />
 
-          {/* Mobile Sidebar */}
+          {/* Mobile Navigation (Sidebar) */}
           <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden">
-                <Menu size={30} />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
               </Button>
             </SheetTrigger>
 
@@ -98,6 +95,26 @@ const Header = (props: Props) => {
                 >
                   <FileText size={28} />
                   <div className="text-[0.8em]">Token Creator</div>
+                </Link>
+                <Link
+                  onClick={() => setShowSidebar(false)}
+                  className="SidebarLink"
+                  href="https://raydium.io/liquidity/create-pool/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Droplets size={28} />
+                  <div className="text-[0.8em]">Liquidity Pool</div>
+                </Link>
+                <Link
+                  onClick={() => setShowSidebar(false)}
+                  className="SidebarLink"
+                  href="https://raydium.io/swap/?inputMint=sol&outputMint=4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Layers size={28} />
+                  <div className="text-[0.8em]">Manage Liquidity</div>
                 </Link>
               </nav>
             </SheetContent>
