@@ -20,14 +20,26 @@ export default function Home() {
       <SolanaLaunchpadCTA />
       <Hero />
 
-      {/* Intro Section */}
+      {/* First Video Section (NT.mp4) */}
+      <section className="flex justify-center py-8 px-4">
+        <video
+          className="w-full max-w-4xl mx-auto rounded-lg shadow-lg border border-teal-500 object-contain"
+          src="/NT.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      </section>
+
+      {/* Intro Section with NT1.mp4 */}
       <section className="flex flex-col lg:flex-row justify-center bg-gradient-to-b from-slate-900 to-background items-start gap-8 px-[2em] lg:px-[4em] py-10 w-full">
         <div className="relative flex flex-col h-full gap-4 lg:w-1/2">
           <h1 className="text-[2em] font-bold text-teal-500">
             What is Navitender?
           </h1>
           <video
-            className="w-full rounded-lg shadow-lg border border-teal-500 object-cover"
+            className="w-full rounded-lg shadow-lg border border-teal-500 object-contain"
             src="/NT1.mp4"
             autoPlay
             loop
@@ -78,13 +90,15 @@ export default function Home() {
       {/* Services section */}
       <Services />
       <Separator className="w-[90%] mx-auto my-10 lg:my-20" />
+
       {/* FAQ section */}
       <FAQ />
       <Separator className="w-[90%] mx-auto my-10 lg:my-20" />
+
       {/* Partners section */}
       <Partners />
+
       <Footer />
     </motion.main>
   );
 }
-
