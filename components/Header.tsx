@@ -15,11 +15,11 @@ const Header = () => {
       {/* Responsive Logo - Clickable to Home */}
       <Link href="/" passHref>
         <Image
-          src="/Logo.png"
+          src="/Logo.webp"   // ✅ updated to WebP
           alt="Navitender Logo"
           width={120}
           height={40}
-          priority
+          priority          // ✅ loads faster on first render
           className="cursor-pointer w-24 h-auto sm:w-32 lg:w-40"
         />
       </Link>
@@ -29,13 +29,13 @@ const Header = () => {
         <nav className="hidden gap-4 lg:flex">
           <Link
             href="/"
-            className="duration-500 cursor-pointer delay-600 animate-in fade-in zoom-in hover:text-tealClr"
+            className="duration-300 hover:text-tealClr"
           >
             Home
           </Link>
           <Link
             href="/token-creator"
-            className="duration-500 cursor-pointer delay-600 animate-in fade-in zoom-in hover:text-tealClr"
+            className="duration-300 hover:text-tealClr"
           >
             Token Creator
           </Link>
@@ -43,7 +43,7 @@ const Header = () => {
             href="https://raydium.io/liquidity/create-pool/"
             target="_blank"
             rel="noopener noreferrer"
-            className="duration-500 cursor-pointer delay-600 animate-in fade-in zoom-in hover:text-tealClr"
+            className="duration-300 hover:text-tealClr"
           >
             Liquidity Pool
           </Link>
@@ -51,7 +51,7 @@ const Header = () => {
             href="https://raydium.io/swap/?inputMint=sol&outputMint=4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R"
             target="_blank"
             rel="noopener noreferrer"
-            className="duration-500 cursor-pointer delay-600 animate-in fade-in zoom-in hover:text-tealClr"
+            className="duration-300 hover:text-tealClr"
           >
             Manage Liquidity
           </Link>
