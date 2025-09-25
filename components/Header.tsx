@@ -1,5 +1,4 @@
 "use client";
-import { Logo } from "@images";
 import Image from "next/image";
 import Link from "next/link";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -8,13 +7,22 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
-type Props = {};
-
-const Header = (props: Props) => {
+const Header = () => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
+
   return (
-    <header className="sticky top-0 z-10 flex justify-between w-full gap-8 px-4 py-2 bg-background font-monsterr">
-      <Image src={Logo} alt="PRNT" width={50} height={50} />
+    <header className="sticky top-0 z-10 flex justify-between items-center w-full gap-8 px-4 py-2 bg-background font-monsterr">
+      {/* Responsive Logo - Clickable to Home */}
+      <Link href="/" passHref>
+        <Image
+          src="/Logo.png"
+          alt="Navitender Logo"
+          width={120}
+          height={40}
+          priority
+          className="cursor-pointer w-24 h-auto sm:w-32 lg:w-40"
+        />
+      </Link>
 
       <div className="flex items-center justify-between lg:w-full">
         {/* Desktop Navigation */}
@@ -50,10 +58,6 @@ const Header = (props: Props) => {
         </nav>
 
         <div className="flex items-center justify-center gap-4">
-          <nav className="hidden gap-4 lg:flex">
-            {/* Socials can stay here if needed */}
-          </nav>
-
           <WalletMultiButton />
 
           {/* Mobile Navigation (Sidebar) */}
