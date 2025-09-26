@@ -27,22 +27,6 @@ export default function TokenCreatorPage() {
   const [network, setNetwork] = useState<"devnet" | "mainnet-beta">("devnet");
   const [loading, setLoading] = useState(false);
 
-  // Reset form after successful payment
-  const resetForm = () => {
-    setName("");
-    setSymbol("");
-    setDecimals("");
-    setSupply("");
-    setDescription("");
-    setOwnerWallet("");
-    setWebsite("");
-    setTwitter("");
-    setTelegram("");
-    setDiscord("");
-    setImageFile(null);
-    setImagePreviewUrl(null);
-  };
-
   // Fetch receiver wallet from backend
   useEffect(() => {
     fetch("/api/wallet")
@@ -65,7 +49,23 @@ export default function TokenCreatorPage() {
     }
   };
 
-  // PAYMENT function
+  // reset form fields after confirmed payment
+  const resetForm = () => {
+    setName("");
+    setSymbol("");
+    setDecimals("");
+    setSupply("");
+    setDescription("");
+    setOwnerWallet("");
+    setWebsite("");
+    setTwitter("");
+    setTelegram("");
+    setDiscord("");
+    setImageFile(null);
+    setImagePreviewUrl(null);
+  };
+
+  // PAYMENT function with fixed 2 SOL
   const handleCreateTokenPayment = async () => {
     try {
       if (!receiverWallet) {
@@ -84,24 +84,18 @@ export default function TokenCreatorPage() {
         return;
       }
 
-      const priceSOL = prompt("Enter amount of SOL to pay for token creation (e.g. 0.5)", "0.5");
-      if (!priceSOL) return;
-      const amount = parseFloat(priceSOL);
-      if (isNaN(amount) || amount <= 0) {
-        alert("Invalid amount.");
-        return;
-      }
-
-      setLoading(true);
-      setStatus("Preparing transaction...");
+      // 🔥 Fixed price: 2 SOL
+      const amount = 2;
       const solanaWeb3 = await import("@solana/web3.js");
-
       const connection = new solanaWeb3.Connection(
         solanaWeb3.clusterApiUrl(network),
         "confirmed"
       );
       const lamports = Math.round(amount * solanaWeb3.LAMPORTS_PER_SOL);
       const toPubkey = new solanaWeb3.PublicKey(receiverWallet);
+
+      setLoading(true);
+      setStatus("Preparing transaction...");
 
       const tx = new solanaWeb3.Transaction().add(
         solanaWeb3.SystemProgram.transfer({
@@ -119,7 +113,7 @@ export default function TokenCreatorPage() {
         await connection.confirmTransaction(signed.signature, "confirmed");
         alert("Payment successful! Tx: " + signed.signature);
         setStatus("Payment confirmed: " + signed.signature);
-        resetForm(); // ✅ reset only on success
+        resetForm();
       } else if (provider.signTransaction) {
         const signedTx = await provider.signTransaction(tx);
         const raw = signedTx.serialize();
@@ -127,7 +121,7 @@ export default function TokenCreatorPage() {
         await connection.confirmTransaction(txid, "confirmed");
         alert("Payment successful! Tx: " + txid);
         setStatus("Payment confirmed: " + txid);
-        resetForm(); // ✅ reset only on success
+        resetForm();
       }
     } catch (err: any) {
       console.error(err);
