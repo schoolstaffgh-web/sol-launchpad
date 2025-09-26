@@ -1,133 +1,100 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // ✅ import router
-import { motion } from "framer-motion";
-import Footer from "@/components/Footer";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Upload } from "lucide-react";
 
 export default function TokenCreatorPage() {
-  const router = useRouter(); // ✅ router instance
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
-  const [decimals, setDecimals] = useState<number | string>("");
-  const [supply, setSupply] = useState<number | string>("");
-  const [description, setDescription] = useState("");
-  const [ownerWallet, setOwnerWallet] = useState("");
-  const [website, setWebsite] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [telegram, setTelegram] = useState("");
-  const [discord, setDiscord] = useState("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-  const [receiverWallet, setReceiverWallet] = useState<string | null>(null);
-  const [status, setStatus] = useState<string>("Idle");
-  const [network, setNetwork] = useState<"devnet" | "mainnet-beta">("devnet");
-  const [loading, setLoading] = useState(false);
+  const [decimals, setDecimals] = useState(9);
+  const [supply, setSupply] = useState("");
 
-  // Fetch receiver wallet from backend
-  useEffect(() => {
-    fetch("/api/wallet")
-      .then((r) => r.json())
-      .then((d) => {
-        if (d?.ok && d.wallet) setReceiverWallet(d.wallet);
-        else setStatus("Receiver wallet not configured on server.");
-      })
-      .catch(() => setStatus("Failed to fetch receiver wallet."));
-  }, []);
-
-  // File input handler
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setImageFile(file);
-    if (file) {
-      setImagePreviewUrl(URL.createObjectURL(file));
-    } else {
-      setImagePreviewUrl(null);
-    }
-  };
-
-  // ✅ PAYMENT + Redirect handling
   const handleCreateTokenPayment = async () => {
     try {
-      if (!receiverWallet) {
-        alert("Receiver wallet not configured on server.");
-        return;
-      }
-      if (typeof window === "undefined" || !(window as any).solana) {
-        alert("No injected wallet found. Install Phantom or open in Phantom browser.");
-        return;
-      }
-      const provider = (window as any).solana;
-      await provider.connect();
-      const fromPubkey = provider.publicKey;
-      if (!fromPubkey) {
-        alert("Please connect/unlock your wallet in the popup.");
-        return;
-      }
-
-      const priceSOL = prompt("Enter amount of SOL to pay for token creation (e.g. 0.5)", "0.5");
-      if (!priceSOL) return;
-      const amount = parseFloat(priceSOL);
-      if (isNaN(amount) || amount <= 0) {
-        alert("Invalid amount.");
-        return;
-      }
-
       setLoading(true);
-      setStatus("Preparing transaction...");
-      const solanaWeb3 = await import("@solana/web3.js");
 
-      const connection = new solanaWeb3.Connection(
-        solanaWeb3.clusterApiUrl(network),
-        "confirmed"
-      );
-      const lamports = Math.round(amount * solanaWeb3.LAMPORTS_PER_SOL);
-      const toPubkey = new solanaWeb3.PublicKey(receiverWallet);
+      // Example: simulate payment
+      const success = Math.random() > 0.5; // replace with real payment logic
 
-      const tx = new solanaWeb3.Transaction().add(
-        solanaWeb3.SystemProgram.transfer({
-          fromPubkey,
-          toPubkey,
-          lamports,
-        })
-      );
-      const latest = await connection.getLatestBlockhash("finalized");
-      tx.recentBlockhash = latest.blockhash;
-      tx.feePayer = fromPubkey;
-
-      let txid: string;
-      if (provider.signAndSendTransaction) {
-        const signed = await provider.signAndSendTransaction(tx);
-        await connection.confirmTransaction(signed.signature, "confirmed");
-        txid = signed.signature;
-      } else if (provider.signTransaction) {
-        const signedTx = await provider.signTransaction(tx);
-        const raw = signedTx.serialize();
-        txid = await connection.sendRawTransaction(raw);
-        await connection.confirmTransaction(txid, "confirmed");
+      if (success) {
+        alert("✅ Payment successful! Token created.");
+        router.push("/success"); // redirect to success page
       } else {
-        throw new Error("Wallet does not support sending transactions.");
+        alert("❌ Payment failed. Please try again.");
+        // stay on page, user can retry
       }
-
-      setStatus("Payment confirmed: " + txid);
-      // ✅ Redirect on success
-      router.push("/success");
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      setStatus("Payment failed: " + (err?.message || err));
-      alert("Payment failed: " + (err?.message || err));
-      // ❌ Stay on page, user can retry
+      alert("Unexpected error occurred.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    // ... your same JSX from before, with the Create Token button calling handleCreateTokenPayment
+    <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-b from-background to-slate-900">
+      <div className="w-full max-w-lg p-8 rounded-2xl border border-teal-500 shadow-xl bg-black/20 backdrop-blur-md">
+        <h1 className="text-3xl font-bold text-center mb-6 text-white">
+          Create Your Token
+        </h1>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-slate-200 mb-1">Token Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-600 focus:outline-none"
+              placeholder="MyToken"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-200 mb-1">Symbol</label>
+            <input
+              type="text"
+              value={symbol}
+              onChange={(e) => setSymbol(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-600 focus:outline-none"
+              placeholder="MTK"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-200 mb-1">Decimals</label>
+            <input
+              type="number"
+              value={decimals}
+              onChange={(e) => setDecimals(Number(e.target.value))}
+              className="w-full px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-600 focus:outline-none"
+              placeholder="9"
+            />
+          </div>
+
+          <div>
+            <label className="block text-slate-200 mb-1">Total Supply</label>
+            <input
+              type="number"
+              value={supply}
+              onChange={(e) => setSupply(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-600 focus:outline-none"
+              placeholder="1000000"
+            />
+          </div>
+        </div>
+
+        <Button
+          onClick={handleCreateTokenPayment}
+          disabled={loading}
+          className="w-full mt-6"
+        >
+          {loading ? "Processing..." : "Create Token"}
+        </Button>
+      </div>
+    </div>
   );
 }
