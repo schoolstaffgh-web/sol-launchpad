@@ -8,6 +8,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Upload } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 export default function TokenCreatorPage() {
   const [name, setName] = useState("");
@@ -26,6 +34,10 @@ export default function TokenCreatorPage() {
   const [status, setStatus] = useState<string>("Idle");
   const [network, setNetwork] = useState<"devnet" | "mainnet-beta">("devnet");
   const [loading, setLoading] = useState(false);
+
+  // Modals
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailureModal, setShowFailureModal] = useState(false);
 
   // Fetch receiver wallet from backend
   useEffect(() => {
@@ -69,18 +81,18 @@ export default function TokenCreatorPage() {
   const handleCreateTokenPayment = async () => {
     try {
       if (!receiverWallet) {
-        alert("Receiver wallet not configured on server.");
+        setShowFailureModal(true);
         return;
       }
       if (typeof window === "undefined" || !(window as any).solana) {
-        alert("No injected wallet found. Install Phantom or open in Phantom browser.");
+        setShowFailureModal(true);
         return;
       }
       const provider = (window as any).solana;
       await provider.connect();
       const fromPubkey = provider.publicKey;
       if (!fromPubkey) {
-        alert("Please connect/unlock your wallet in the popup.");
+        setShowFailureModal(true);
         return;
       }
 
@@ -111,21 +123,21 @@ export default function TokenCreatorPage() {
       if (provider.signAndSendTransaction) {
         const signed = await provider.signAndSendTransaction(tx);
         await connection.confirmTransaction(signed.signature, "confirmed");
-        alert("Payment successful! Tx: " + signed.signature);
-        setStatus("Payment confirmed: " + signed.signature);
+        setShowSuccessModal(true);
+        setStatus("Payment confirmed");
         resetForm();
       } else if (provider.signTransaction) {
         const signedTx = await provider.signTransaction(tx);
         const raw = signedTx.serialize();
         const txid = await connection.sendRawTransaction(raw);
         await connection.confirmTransaction(txid, "confirmed");
-        alert("Payment successful! Tx: " + txid);
-        setStatus("Payment confirmed: " + txid);
+        setShowSuccessModal(true);
+        setStatus("Payment confirmed");
         resetForm();
       }
     } catch (err: any) {
       console.error(err);
-      alert("Payment failed: " + (err?.message || err));
+      setShowFailureModal(true);
       setStatus("Payment failed: " + (err?.message || err));
     } finally {
       setLoading(false);
@@ -331,6 +343,51 @@ export default function TokenCreatorPage() {
         </motion.div>
       </section>
       <Footer />
+
+      {/* ✅ Success Modal */}
+      <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-teal-400">
+              🎉 Token Creation Successful!
+            </DialogTitle>
+            <DialogDescription className="text-white">
+              Your token has been successfully created. You can now proceed to
+              the next steps, such as providing liquidity and listing your token
+              on Raydium.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => setShowSuccessModal(false)}
+              className="bg-teal-500 hover:bg-teal-600 text-white"
+            >
+              Got it
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* ❌ Failure Modal */}
+      <Dialog open={showFailureModal} onOpenChange={setShowFailureModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-red-500">⚠️ Token Creation Failed</DialogTitle>
+            <DialogDescription className="text-white">
+              Something went wrong while creating your token. Please try again.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => setShowFailureModal(false)}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </motion.main>
   );
 }
+
