@@ -1,10 +1,11 @@
+"use client";
+
 import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 
-// Import dummy partner logos
-import { partnerLogos } from "@/images";
+const partnerLogos = ["/im1.webp", "/im2.webp", "/im3.webp", "/im4.webp"];
 
 const Partners = () => {
   return (
@@ -20,19 +21,24 @@ const Partners = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Card className="overflow-hidden">
-                <CardContent className="p-6">
+              <Card
+                className="overflow-hidden h-40 flex items-center justify-center 
+                           transition-all duration-300 border border-slate-700 
+                           hover:border-teal-400 hover:shadow-[0_0_15px_rgba(20,184,166,0.6)]"
+              >
+                <CardContent className="flex items-center justify-center w-full h-full p-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="flex items-center justify-center w-full h-full"
                   >
                     <Image
                       src={logo}
                       alt={`Partner ${index + 1}`}
                       width={200}
                       height={100}
-                      className="object-contain w-full h-auto"
+                      className="object-contain max-h-full grayscale hover:grayscale-0 transition duration-300"
                     />
                   </motion.div>
                 </CardContent>
