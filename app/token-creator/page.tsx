@@ -114,7 +114,7 @@ export default function TokenCreatorPage() {
 
         // ✅ Success message (no long Tx ID)
         alert(
-          "Token Creation Successful!\n\nYour token has been successfully created.\nYou can now proceed to the next steps, such as providing liquidity and listing your token on Raydium."
+          "Token Creation Successful!\n\nYour token has been successfully created."
         );
 
         setStatus("Payment confirmed");
@@ -127,7 +127,7 @@ export default function TokenCreatorPage() {
 
         // ✅ Success message (no long Tx ID)
         alert(
-          "Token Creation Successful!\n\nYour token has been successfully created.\nYou can now proceed to the next steps, such as providing liquidity and listing your token on Raydium."
+          "Token Creation Successful!\n\nYour token has been successfully created."
         );
 
         setStatus("Payment confirmed");
