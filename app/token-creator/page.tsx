@@ -24,10 +24,12 @@ export default function TokenCreatorPage() {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [receiverWallet, setReceiverWallet] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("Idle");
-  const [network, setNetwork] = useState<"devnet" | "mainnet-beta">("devnet");
+  
+  // ✅ Hardcode network to MAINNET
+  const network: "mainnet-beta" = "mainnet-beta"; 
+
   const [loading, setLoading] = useState(false);
 
-  // Fetch receiver wallet from backend
   useEffect(() => {
     fetch("/api/wallet")
       .then((r) => r.json())
@@ -38,7 +40,6 @@ export default function TokenCreatorPage() {
       .catch(() => setStatus("Failed to fetch receiver wallet."));
   }, []);
 
-  // file input handler
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     setImageFile(file);
@@ -49,7 +50,6 @@ export default function TokenCreatorPage() {
     }
   };
 
-  // reset form fields after confirmed payment
   const resetForm = () => {
     setName("");
     setSymbol("");
@@ -65,7 +65,6 @@ export default function TokenCreatorPage() {
     setImagePreviewUrl(null);
   };
 
-  // PAYMENT function with fixed 2 SOL
   const handleCreateTokenPayment = async () => {
     try {
       if (!receiverWallet) {
@@ -84,7 +83,6 @@ export default function TokenCreatorPage() {
         return;
       }
 
-      // 🔥 Fixed price: 2 SOL
       const amount = 2;
       const solanaWeb3 = await import("@solana/web3.js");
       const connection = new solanaWeb3.Connection(
@@ -111,12 +109,7 @@ export default function TokenCreatorPage() {
       if (provider.signAndSendTransaction) {
         const signed = await provider.signAndSendTransaction(tx);
         await connection.confirmTransaction(signed.signature, "confirmed");
-
-        // ✅ Success message (no long Tx ID)
-        alert(
-          "Token Creation Successful!\n\nYour token has been successfully created."
-        );
-
+        alert("Token Creation Successful!\n\nYour token has been successfully created.");
         setStatus("Payment confirmed");
         resetForm();
       } else if (provider.signTransaction) {
@@ -124,12 +117,7 @@ export default function TokenCreatorPage() {
         const raw = signedTx.serialize();
         const txid = await connection.sendRawTransaction(raw);
         await connection.confirmTransaction(txid, "confirmed");
-
-        // ✅ Success message (no long Tx ID)
-        alert(
-          "Token Creation Successful!\n\nYour token has been successfully created."
-        );
-
+        alert("Token Creation Successful!\n\nYour token has been successfully created.");
         setStatus("Payment confirmed");
         resetForm();
       }
@@ -166,6 +154,7 @@ export default function TokenCreatorPage() {
 
           <div className="p-6 bg-opacity-50 border rounded-lg bg-slate-800 backdrop-blur-sm border-teal-400/20">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+
               {/* NAME */}
               <Input
                 value={name}
@@ -305,28 +294,14 @@ export default function TokenCreatorPage() {
                 className="col-span-2"
               />
 
-              {/* NETWORK + BUTTON */}
+              {/* ✅ BUTTON ONLY — NO NETWORK SELECTOR */}
               <div className="col-span-2 flex flex-col gap-3">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <label className="text-sm text-slate-300 mr-2">Network: </label>
-                    <select
-                      value={network}
-                      onChange={(e) =>
-                        setNetwork(e.target.value as "devnet" | "mainnet-beta")
-                      }
-                      className="p-2 rounded bg-slate-700 text-white"
-                    >
-                      <option value="devnet">Devnet (test)</option>
-                      <option value="mainnet-beta">Mainnet (real)</option>
-                    </select>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-300">
-                      Receiver: {receiverWallet ? "configured" : "not configured"}
-                    </p>
-                  </div>
-                </div>
+                <p className="text-sm text-slate-300">
+                  Network: Mainnet (real)
+                </p>
+                <p className="text-sm text-slate-300">
+                  Receiver: {receiverWallet ? "configured" : "not configured"}
+                </p>
 
                 <Button
                   className="px-4 py-2 font-bold text-white bg-gradient-to-r from-teal-600 to-teal-400 hover:from-teal-500 hover:to-teal-300"
@@ -344,4 +319,3 @@ export default function TokenCreatorPage() {
     </motion.main>
   );
 }
-
