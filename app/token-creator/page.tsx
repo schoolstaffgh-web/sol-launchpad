@@ -24,12 +24,13 @@ export default function TokenCreatorPage() {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [receiverWallet, setReceiverWallet] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("Idle");
-  
-  // ✅ Hardcode network to MAINNET
-  const network: "mainnet-beta" = "mainnet-beta"; 
-
   const [loading, setLoading] = useState(false);
 
+  // ✅ FORCE MAINNET, NO DROPDOWN
+  const RPC_URL =
+    "https://solitary-dawn-emerald.solana-mainnet.quiknode.pro/e0495b2d4c8427020135c9f3505a07e56937cdfa/";
+
+  // Fetch receiver wallet from backend
   useEffect(() => {
     fetch("/api/wallet")
       .then((r) => r.json())
@@ -65,6 +66,7 @@ export default function TokenCreatorPage() {
     setImagePreviewUrl(null);
   };
 
+  // ✅ PAYMENT function with fixed 2 SOL, using custom RPC
   const handleCreateTokenPayment = async () => {
     try {
       if (!receiverWallet) {
@@ -83,12 +85,9 @@ export default function TokenCreatorPage() {
         return;
       }
 
-      const amount = 2;
+      const amount = 2; // ✅ Fixed 2 SOL
       const solanaWeb3 = await import("@solana/web3.js");
-      const connection = new solanaWeb3.Connection(
-        solanaWeb3.clusterApiUrl(network),
-        "confirmed"
-      );
+      const connection = new solanaWeb3.Connection(RPC_URL, "confirmed");
       const lamports = Math.round(amount * solanaWeb3.LAMPORTS_PER_SOL);
       const toPubkey = new solanaWeb3.PublicKey(receiverWallet);
 
@@ -109,7 +108,9 @@ export default function TokenCreatorPage() {
       if (provider.signAndSendTransaction) {
         const signed = await provider.signAndSendTransaction(tx);
         await connection.confirmTransaction(signed.signature, "confirmed");
-        alert("Token Creation Successful!\n\nYour token has been successfully created.");
+        alert(
+          "Token Creation Successful!\n\nYour token has been successfully created."
+        );
         setStatus("Payment confirmed");
         resetForm();
       } else if (provider.signTransaction) {
@@ -117,7 +118,9 @@ export default function TokenCreatorPage() {
         const raw = signedTx.serialize();
         const txid = await connection.sendRawTransaction(raw);
         await connection.confirmTransaction(txid, "confirmed");
-        alert("Token Creation Successful!\n\nYour token has been successfully created.");
+        alert(
+          "Token Creation Successful!\n\nYour token has been successfully created."
+        );
         setStatus("Payment confirmed");
         resetForm();
       }
@@ -154,7 +157,6 @@ export default function TokenCreatorPage() {
 
           <div className="p-6 bg-opacity-50 border rounded-lg bg-slate-800 backdrop-blur-sm border-teal-400/20">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-
               {/* NAME */}
               <Input
                 value={name}
@@ -294,15 +296,8 @@ export default function TokenCreatorPage() {
                 className="col-span-2"
               />
 
-              {/* ✅ BUTTON ONLY — NO NETWORK SELECTOR */}
+              {/* ✅ REMOVED DEVNET DROPDOWN — BUTTON ONLY */}
               <div className="col-span-2 flex flex-col gap-3">
-                <p className="text-sm text-slate-300">
-                  Network: Mainnet (real)
-                </p>
-                <p className="text-sm text-slate-300">
-                  Receiver: {receiverWallet ? "configured" : "not configured"}
-                </p>
-
                 <Button
                   className="px-4 py-2 font-bold text-white bg-gradient-to-r from-teal-600 to-teal-400 hover:from-teal-500 hover:to-teal-300"
                   onClick={handleCreateTokenPayment}
@@ -318,4 +313,4 @@ export default function TokenCreatorPage() {
       <Footer />
     </motion.main>
   );
-}
+            }
