@@ -5,7 +5,6 @@ import { Montserrat, Rubik } from "next/font/google";
 import Provider from "@providers/Provider";
 import Header from "@components/Header";
 import Loader from "@components/Loader";
-import Head from "next/head";
 
 export const montserrat = Montserrat({
   weight: "700",
@@ -19,10 +18,11 @@ export const rubik = Rubik({
   variable: "--Rubik",
 });
 
+// ✅ Updated metadata
 export const metadata: Metadata = {
-  title: "Solana | Launchpad",
+  title: "NaviTender Launchpad | Create Solana Tokens",
   description:
-    "A Solana Launchpad to showcase Projects and launch tokens & mint NFT's.",
+    "Launch Solana tokens, mint NFTs, and showcase projects with NaviTender Launchpad.",
 };
 
 export default function RootLayout({
@@ -32,11 +32,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head>
+      <head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
         <link rel="icon" href="/Logo.png" />
-      </Head>
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body
         className={`${montserrat.variable} ${rubik.variable} font-rubik relative`}
       >
