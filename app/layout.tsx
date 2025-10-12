@@ -18,11 +18,14 @@ export const rubik = Rubik({
   variable: "--Rubik",
 });
 
-// ✅ Updated metadata
 export const metadata: Metadata = {
   title: "NaviTender Launchpad | Create Solana Tokens",
   description:
     "Launch Solana tokens, mint NFTs, and showcase projects with NaviTender Launchpad.",
+  icons: {
+    icon: "/Logo.png",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -32,12 +35,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-        <link rel="icon" href="/Logo.png" />
-        <link rel="manifest" href="/manifest.json" />
-      </head>
       <body
         className={`${montserrat.variable} ${rubik.variable} font-rubik relative`}
       >
