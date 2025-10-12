@@ -1,10 +1,10 @@
 import "./globals.css";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import type { Metadata } from "next";
 import { Montserrat, Rubik } from "next/font/google";
 import Provider from "@providers/Provider";
 import Header from "@components/Header";
 import Loader from "@components/Loader";
+import Head from "next/head";
 
 export const montserrat = Montserrat({
   weight: "700",
@@ -18,17 +18,6 @@ export const rubik = Rubik({
   variable: "--Rubik",
 });
 
-export const metadata: Metadata = {
-  title: "Solana | Launchpad",
-  description:
-    "A Solana Launchpad to showcase Projects and launch tokens & mint NFT's.",
-  icons: {
-    icon: "/Logo.png", // this is your main favicon
-    shortcut: "/Logo.png",
-    apple: "/Logo.png",
-  },
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -36,6 +25,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Head>
+        {/* Force favicon */}
+        <link rel="icon" href="/Logo.png" />
+        <link rel="shortcut icon" href="/Logo.png" />
+        <link rel="apple-touch-icon" href="/Logo.png" />
+      </Head>
       <body
         className={`${montserrat.variable} ${rubik.variable} font-rubik relative`}
       >
