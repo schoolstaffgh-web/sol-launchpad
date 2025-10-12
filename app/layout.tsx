@@ -21,11 +21,10 @@ export const rubik = Rubik({
 export const metadata: Metadata = {
   title: "NaviTender Launchpad | Create Solana Tokens",
   description:
-    "Launch Solana tokens, mint NFTs, and showcase projects with NaviTender Launchpad.",
+    "A Solana Launchpad to showcase Projects and launch tokens & mint NFT's.",
   icons: {
     icon: "/Logo.png",
   },
-  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
