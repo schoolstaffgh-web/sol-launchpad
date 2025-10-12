@@ -31,6 +31,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Standard favicon */}
+        <link rel="icon" type="image/png" sizes="32x32" href="/Logo.png" />
+        {/* Retina and higher-res screens */}
+        <link rel="icon" type="image/png" sizes="64x64" href="/Logo.png" />
+        {/* Apple touch icon */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/Logo.png" />
+      </head>
       <body
         className={`${montserrat.variable} ${rubik.variable} font-rubik relative`}
       >
